@@ -19,7 +19,7 @@ sudo apt install python3.7 python3-venv python3.7-venv
 python3.7 -m venv py37-venv
 . py37-venv/bin/activate
 cd Drishti
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 "paste the urls/domains/subdomains in raw_urls.txt"
 python drishti.py
 ```
