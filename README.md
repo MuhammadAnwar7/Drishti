@@ -56,6 +56,9 @@ Two files will be created
 => Result-200.txt    : urls with 200 OK response .
 => Result-other.txt  : urls with other than 200 response.
 ```
+
+### Credits : 
+Thanks mate [@NullPxl](https://twitter.com/NullPxl)
 ## Contact : 
 
 [Say Hello : My twitter](https://twitter.com/0xAsm0d3us)
