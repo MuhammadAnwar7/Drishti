@@ -13,8 +13,8 @@ from aiohttp import *
 start_time = time.time()
 
 
-def main():
-    asyncio.run(download_url_contents())
+def main(urls_file):
+    asyncio.run(download_url_contents(urls_file))
 
 
 def collector_alive(uri ):
@@ -25,9 +25,9 @@ def collector_alive_but_other(uri):
     with open('Results-other.txt', 'a') as f2:
         f2.write(uri+"\n")
 
-async def download_url_contents():
+async def download_url_contents(urls_file):
     async with aiohttp.ClientSession() as session:
-        await gen_url_tasks(session, 'raw_urls.txt')
+        await gen_url_tasks(session, urls_file)
 async def fetch_url(session, url):
     # Get the response text of the supplied url
     try:
@@ -71,7 +71,7 @@ async def fetch_url(session, url):
 async def gen_url_tasks(session, url_list):
     # Generate the tasks for each url in supplied url list.
 
-    with open('raw_urls.txt' , 'r' , encoding='utf-8') as f:
+    with open(url_list, 'r' , encoding='utf-8') as f:
 	    temp_urls = f.read().splitlines()
 
     urls = []
@@ -110,8 +110,11 @@ if __name__ == "__main__":
     print(banner)
     time.sleep(0.5)
     assert sys.version_info >= (3, 7), "Use Python 3.7+"
-    if not os.path.isfile('raw_urls.txt'):
-        print("\u001b[31m  [!]File raw_urls.txt does not exist ! ")
+    if len(sys.argv) != 2:
+        print(f"\u001b[31m  Usage: ./{sys.argv[0]} <urls_file> ")
+        quit()
+    if not os.path.isfile(sys.argv[1]):
+        print(f"\u001b[31m  [!]File {sys.argv[1]} does not exist ! ")
         quit()
     print(" \u001b[32m[~] Loading URLs")
     time.sleep(0.5)
@@ -123,5 +126,5 @@ if __name__ == "__main__":
     if os.path.isfile('Results-other.txt'):
         os.remove("Results-other.txt")
 
-    main()
+    main(sys.argv[1])
     print("\n \u001b[31m [!] Total execution time    : %ss\u001b[0m" % str((time.time() - start_time))[:-12])
